@@ -23,9 +23,14 @@ flaw, the test is void.
 
 ## Locked style/identity spec (fitness coach series)
 
-- Fortnite-like stylized 3D game character: slightly exaggerated proportions,
+- Stylized 3D game character: slightly exaggerated proportions,
   smooth clean sculpted surfaces, polished game-style face. Not photorealistic,
   not claymation, not a cartoon.
+  **Never use the word "Fortnite" (or any game/brand name) in a generation
+  prompt.** The image tool interprets brand names literally and generates
+  branded content (posters, neon signs, loot boxes). Describe the look
+  without naming any game. (Lesson 2026-09-30: 7 of 12 ends came back with
+  Fortnite branding because prompts said "Fortnite-style.")
 - Identity: athletic man in his mid-30s, short dark hair, olive-green T-shirt,
   black athletic shorts, black sneakers. Same face in every asset.
 - Dark upscale gym, black rubber floor, sparse real-looking equipment. The
