@@ -30,10 +30,7 @@ import json
 import os
 import sys
 
-# The typesafe skill ships beside this one in the same repo; import its client
-# from there so the two stay together on any host.
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                                "..", "..", "typesafe", "bin"))
+sys.path.insert(0, "/home/hatch/workspace/skills/typesafe/bin")
 from jev import ask  # noqa: E402  (typesafe skill: ask(state, questions, model))
 
 NOUL_PASS = 0.7   # P(clean) at or above this -> clean
@@ -42,11 +39,33 @@ NOUL_FLAG = 0.3   # at or below this -> confidently bad
 
 def format_state(facts: dict) -> str:
     kind = facts.get("kind", "keyframe")
+    if kind == "keyframe-start":
+        phase_note = (
+            "This is a START keyframe: it must show the correct BEGINNING "
+            "position of the movement. Program cues that describe the END of "
+            "the movement or the motion itself (e.g. 'extend', 'curl toward', "
+            "'push up') are satisfied by being in the right STARTING position "
+            "- the frame must NOT show the end position. Only flag a cue if "
+            "the start position itself contradicts it."
+        )
+    elif kind == "keyframe-end":
+        phase_note = (
+            "This is an END keyframe: it must show the correct END position "
+            "of the movement. Program cues that describe the START of the "
+            "movement are satisfied by having arrived at the right END "
+            "position - the frame must NOT show the start position. Only flag "
+            "a cue if the end position itself contradicts it."
+        )
+    else:
+        phase_note = ""
     lines = [
         f'EXERCISE: {facts.get("exercise")}',
         f'ASSET KIND: {kind} ({"judge motion, loop, stability" if kind == "clip" else "judge the 7 keyframe axes only"})',
-        "PROGRAM CUES:",
     ]
+    if phase_note:
+        lines.append(f"PHASE: {phase_note}")
+    lines.append("PROGRAM CUES:")
+
     for c in facts.get("cues", []):
         lines.append(f"  - {c}")
     for field in ("identity", "style", "scene", "pose", "implements",
@@ -109,18 +128,24 @@ def battery(is_clip: bool) -> dict:
             "type": "noul",
             "question": (
                 "The POSE facts describe the body position against the stated "
-                "phase and each program cue. Does the pose match the phase "
-                "AND every cue - with no cue contradicted by the facts?"
+                "phase and each program cue. Does the pose correctly show the "
+                "STATED PHASE (start = beginning position, end = end position)? "
+                "A start keyframe must NOT show the end of the movement, and an "
+                "end keyframe must NOT show the start. Judge each cue against "
+                "the phase: a cue is contradicted only if the phase position "
+                "itself violates it."
             ),
             "criteria": {
-                "true": "Pose matches the phase and satisfies every cue.",
-                "false": "Pose contradicts the phase or at least one cue.",
+                "true": "Pose correctly shows the stated phase; no cue is violated by the phase position itself.",
+                "false": "Pose shows the wrong phase, or the phase position violates a cue.",
             },
         },
         "implements_ok": {
             "type": "noul",
             "question": (
-                "The IMPLEMENTS facts describe the exercise implements. Is "
+                "The IMPLEMENTS facts describe the exercise implements. If the "
+                "exercise is bodyweight-only (no implements in the cues), "
+                "there is nothing to check and this passes. Otherwise: is "
                 "every implement present in the right count, positioned per "
                 "the cues, and whole? A barbell shaft MAY run past the frame "
                 "edges - flag it only if a hand, plate, or collar is cut off. "
@@ -128,7 +153,7 @@ def battery(is_clip: bool) -> dict:
                 "frame."
             ),
             "criteria": {
-                "true": "Implements correct in count, position, and wholeness (barbell shaft may exit frame).",
+                "true": "Bodyweight (nothing to check), or implements correct in count, position, and wholeness (barbell shaft may exit frame).",
                 "false": "Wrong count, mispositioned, or a cropped implement beyond the barbell carve-out.",
             },
         },

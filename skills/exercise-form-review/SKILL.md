@@ -1,9 +1,3 @@
----
-name: exercise-form-review
-description: Blind visual QA for exercise demo keyframes and clips, judged against the program's form cues and a locked style spec without hinting at suspected flaws. Use when gating generated fitness keyframes or clips before video rendering, or when calibrating the judge against human taste.
-compatibility: The Jev judge needs the typesafe skill's credential helper and the custom.typesafe connector, which exist only on the hatch host.
----
-
 # exercise-form-review
 
 Blind visual QA for exercise demo keyframes and clips. A reviewer who can see
@@ -104,10 +98,43 @@ To test whether the judge sees what a human sees:
 
 ## Gating keyframes before video
 
-Once calibrated: every keyframe pair goes through the judge before any
-render is launched. A FLAGged pair goes back for regeneration (reword the
-prompt, up to 2 retries). Renders only launch on PASSed pairs. The judge's
-verdict JSON is saved next to the keyframes as the audit trail.
+Keyframes-first, always: every keyframe pair is generated (or corrected),
+gated, and operator-cleared BEFORE any video render is launched. No renders
+until the full keyframe phase is done. Then renders run one at a time, each
+with a fresh completion watcher, and each clip is gated before the next
+render launches.
+
+Per-keyframe gate: every keyframe goes through the two-layer judge below. A
+FLAGged keyframe goes back for regeneration (reword the prompt, up to 2
+retries). The judge's verdict JSON is saved next to the keyframes as the
+audit trail.
+
+Pair-coherence check (mandatory, human or coordinator — the per-keyframe
+judge cannot see this): for cyclic exercises, the start and end keyframes
+must show the SAME phase of the movement (e.g. both heels-down for a calf
+raise, both folded for a rope extension). The clip gate requires the last
+frame to return to the first with no visible jump; a mismatched pair
+(start != end phase) renders as a non-looping clip and WILL fail `loop_ok`.
+This was proven by the standing-calf-raise v1: first frame heels-down, last
+frame heels-up, clip rejected as "not a loop". For stretches, the pair
+intentionally shows setup -> deep (the stretch being applied); for isometric
+holds, start and end are the held position. When a pair is mismatched,
+regenerate the end to match the start (or vice versa — keep the good frame).
+
+Operator review: after 2 retries fail on uncertainty-only flags (no
+confident defect), a human inspects the image and may clear it, recording an
+`operator_review` note. This override does NOT apply to confirmed defects.
+Coordinators cannot clear their own flags — uncertainty-only escalations go
+to the operator.
+
+Known judge noise (documented 2026-09-30, partially mitigated by
+phase-aware prompts):
+- `implements_ok` can be uncertain for bodyweight exercises (nothing to
+  check — the judge now auto-passes these).
+- `pose_ok` can be uncertain for valid isometric holds (static by design).
+- The judge may flag a correct START because the cues describe the movement:
+  fixed by phase-aware extraction and judging (the judge is told the asset's
+  phase and judges cues against it, not against the full movement).
 
 ## Two-layer scripted flow (mirrors the visual-review skill)
 
@@ -131,7 +158,7 @@ battery of `noul` questions per asset — all strict, blocking on uncertainty:
 | `identity_ok` | face, hair, wardrobe match the locked identity |
 | `style_ok` | stylized 3D look; not photoreal, not claymation |
 | `scene_ok` | dark gym, right equipment, sparse, no text/logos |
-| `pose_ok` | pose matches the phase and every program cue |
+| `pose_ok` | pose correctly shows the stated phase (start/end); cues judged against the phase, not the full movement |
 | `implements_ok` | right count and position; whole (barbell shaft may exit frame) |
 | `anatomy_ok` | no warped/missing/fused limbs or bad hands/feet |
 | `framing_ok` | full body in frame with clear margins |
@@ -160,6 +187,20 @@ clean exercises. The barbell carve-out above came from this round: the
 strict "implements fully inside the frame" line flagged two otherwise-clean
 barbell keyframes for shaft cropping that is near-unavoidable in the
 vertical crop.
+
+Phase-awareness fix (2026-09-30): operator review found the judge
+confidently flagging correct START keyframes (overhead rope extension,
+walking lunge) because the program cues describe the full movement while the
+frame shows its beginning. Fixed in three places: the extraction brief now
+requires the extractor to state the phase and relate cues to it; the judge's
+`format_state` tells Jev the asset's phase and how to judge cues against it;
+the `pose_ok` question explicitly says a start must not show the end (and
+vice versa). `implements_ok` now auto-passes bodyweight exercises.
+
+Pair-coherence finding (2026-09-30): operator review of all pairs found 12
+cyclic exercises with start != end phase. The per-keyframe judge cannot see
+this; it is now a mandatory documented check. Mismatched pairs render as
+non-looping clips (proven by standing-calf-raise v1).
 
 ## Known limits
 

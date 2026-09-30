@@ -1,7 +1,6 @@
 ---
 name: "typesafe"
-description: "Call Jev (TypeSafe System One) to classify text with typed choice, score, and true/false questions. Use when a pipeline or review needs Jev's typed answers, such as categorizing commits and PRs in the stackdiff pipeline."
-compatibility: "Needs the hatch host's dynamic-credential helper at /opt/hatch/skills/skill-creator/bin and the custom.typesafe connector. Neither exists on other hosts, so calls fail there."
+description: "Call Jev (TypeSafe System One) to classify text with typed questions. Used by the stackdiff pipeline to categorize commits and PRs."
 ---
 
 # Typesafe

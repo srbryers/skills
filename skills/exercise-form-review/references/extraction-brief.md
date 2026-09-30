@@ -18,8 +18,15 @@ For each asset, fill every schema field with 1-3 plain sentences:
   frame edge" — not "the bar is cropped wrong".)
 - Quote positions concretely: "both dumbbells above the chest, arms vertical",
   "rear foot flat on the bench seat, rear knee bent forward".
-- For `pose`, walk through the program cues one by one and say how the body
-  relates to each.
+- For `pose`, note the asset's phase FIRST (from `kind`: `keyframe-start`
+  = the beginning position, `keyframe-end` = the end position). Then walk
+  through the program cues one by one and say how the body relates to each
+  *in the context of that phase*. A start keyframe correctly shows the
+  position BEFORE the movement happens - do not describe it as missing the
+  end position. An end keyframe correctly shows the position AFTER the
+  movement - do not describe it as missing the start. State the phase
+  explicitly, e.g. "This is the start: arms hang at the sides; the cue to
+  curl up applies to the movement that follows."
 - For clips (judged from a contact sheet of 6-8 evenly spaced frames), describe
   what changes frame to frame in `motion`, compare the last frame to the first
   in `loop`, and note any morphing or flicker in `stability`.

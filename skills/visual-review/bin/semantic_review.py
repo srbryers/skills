@@ -4,9 +4,9 @@
 Runs on the agent host. Drives the machine that runs Storybook through a
 remote-execution helper (default: ~/workspace/bin/macstudio):
 
-  1. <pm> run ui:visual                 pixel gate, writes report.json
+  1. npm run ui:visual                  pixel gate, writes report.json
   2. read NEW/CHANGED story ids from the report
-  3. <pm> run ui:layout-facts -- --changed
+  3. npm run ui:layout-facts -- --changed
   4. fetch those facts files locally
   5. run the Jev judge (jev_review.py) on each
 
@@ -14,10 +14,8 @@ Exit 0: no changed stories, or every changed story PASSes.
 Exit 1: any story needs human REVIEW, or a step failed.
 
 Usage:
-    semantic_review.py --repo ~/Development/<project> [--pm npm|pnpm]
-                       [--skip-visual] [--studio ~/workspace/bin/macstudio]
+    semantic_review.py [--skip-visual] [--studio ~/workspace/bin/macstudio]
 
---repo is the project checkout on the Studio. --pm is its package manager.
 --skip-visual reuses the latest report.json instead of re-running screenshots.
 """
 
@@ -35,12 +33,13 @@ SKILL_BIN = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, SKILL_BIN)
 from jev_review import review_story  # noqa: E402
 
+STUDIO_REPO = "~/Development/prelude-social-skills-coach"
 ID_RE = re.compile(r"^[A-Za-z0-9_-]+$")
 
 
 def studio(cmd: str, args) -> str:
     """Run a shell command on the Studio; return stdout. Raises on failure."""
-    full = f"export PATH=/opt/homebrew/bin:/usr/bin:/bin && cd {args.repo} && {cmd}"
+    full = f"export PATH=/opt/homebrew/bin:/usr/bin:/bin && cd {STUDIO_REPO} && {cmd}"
     p = subprocess.run([args.studio, full], capture_output=True, text=True,
                        timeout=1800)
     if p.returncode != 0:
@@ -81,10 +80,6 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--skip-visual", action="store_true",
                     help="reuse the latest pixel-gate report instead of re-running it")
-    ap.add_argument("--repo", required=True,
-                    help="project checkout on the Studio, e.g. ~/Development/<project>")
-    ap.add_argument("--pm", choices=("npm", "pnpm"), default="npm",
-                    help="the project's package manager on the Studio")
     ap.add_argument("--studio", default=os.path.expanduser("~/workspace/bin/macstudio"))
     ap.add_argument("--model", default="jev-latest")
     args = ap.parse_args()
@@ -92,8 +87,8 @@ def main() -> int:
     if not args.skip_visual:
         print("layer 1: pixel gate on the Studio...", flush=True)
         # ui:visual exits 1 when stories changed - that is expected, not fatal.
-        full = (f"export PATH=/opt/homebrew/bin:/usr/bin:/bin && cd {args.repo} "
-                f"&& {args.pm} run ui:visual; echo VISUAL_EXIT=$?")
+        full = (f"export PATH=/opt/homebrew/bin:/usr/bin:/bin && cd {STUDIO_REPO} "
+                "&& npm run ui:visual; echo VISUAL_EXIT=$?")
         p = subprocess.run([args.studio, full], capture_output=True, text=True,
                            timeout=1800)
         m = re.search(r"VISUAL_EXIT=(\d+)", p.stdout)
@@ -110,7 +105,7 @@ def main() -> int:
         print("no NEW or CHANGED stories - semantic review skipped.")
         return 0
     print(f"{len(ids)} new/changed stories: extracting layout facts...", flush=True)
-    studio(f"{args.pm} run ui:layout-facts -- --changed >/dev/null 2>&1", args)
+    studio("npm run ui:layout-facts -- --changed >/dev/null 2>&1", args)
 
     with tempfile.TemporaryDirectory(prefix="layout-facts-") as tmp:
         paths = fetch_facts(args, ids, tmp)
