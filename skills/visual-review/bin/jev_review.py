@@ -33,10 +33,14 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import sys
 
-sys.path.insert(0, "/home/hatch/workspace/skills/typesafe/bin")
+# The typesafe skill ships beside this one in the same repo; import its client
+# from there so the two stay together on any host.
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                "..", "..", "typesafe", "bin"))
 from jev import ask  # noqa: E402  (typesafe skill: ask(state, questions, model))
 
 LOGO_RE = re.compile(r"logo|wordmark|brand", re.I)

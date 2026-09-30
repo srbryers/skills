@@ -1,3 +1,9 @@
+---
+name: exercise-form-review
+description: Blind visual QA for exercise demo keyframes and clips, judged against the program's form cues and a locked style spec without hinting at suspected flaws. Use when gating generated fitness keyframes or clips before video rendering, or when calibrating the judge against human taste.
+compatibility: The Jev judge needs the typesafe skill's credential helper and the custom.typesafe connector, which exist only on the hatch host.
+---
+
 # exercise-form-review
 
 Blind visual QA for exercise demo keyframes and clips. A reviewer who can see
