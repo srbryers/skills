@@ -39,7 +39,12 @@ For each asset, fill every schema field with 1-3 plain sentences:
   showing a pure side profile." This field lets the pair check verify the
   start and end share one viewpoint - be specific enough that a side view
   and a three-quarter view, or a front-left and a front-right view, read as
-  different.
+  different. Also note the subject's facing direction within the frame
+  (e.g. "his knees point toward the left of the frame", "his left side
+  faces the camera") so a horizontally mirrored pair - same angle but
+  flipped left-right - reads as different. Mirroring is a real failure
+  mode: the 90-90 hip switches pair shipped mirrored (start facing one way,
+  end flipped) and it reads as a camera jump on loop.
 - For `scene`, describe the setting in 2-3 sentences: the type of space, the
   flooring, the lighting, the background equipment. Then EXPLICITLY state
   whether you see any of the following, quoting what you see: posters, signs,

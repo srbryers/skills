@@ -139,6 +139,11 @@ three-quarter) — all three ends had to be regenerated. Rules:
 - When generating an end to match a start, pass the start's camera angle
   explicitly (prompt_builder `camera_angle` parameter) — never rely on the
   default angle.
+- Watch for MIRRORING as a separate failure mode: a pair can share the same
+  nominal angle yet be flipped left-right (subject facing opposite
+  directions). The 90-90 hip switches pair shipped mirrored and it reads as
+  a camera jump on loop. The extractor notes facing direction; the pair
+  check flags mirrors.
 
 Operator review: after 2 retries fail on uncertainty-only flags (no
 confident defect), a human inspects the image and may clear it, recording an

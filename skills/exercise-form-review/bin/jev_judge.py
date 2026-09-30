@@ -254,11 +254,13 @@ def pair_battery() -> dict:
                 "height? A video morphed between these two frames must not "
                 "show a camera jump. A side view vs a three-quarter view, or "
                 "a front-left vs a front-right view, is a MISMATCH even if "
-                "the pose matches."
+                "the pose matches. A horizontally MIRRORED pair - one frame "
+                "flipped left-right relative to the other, the subject facing "
+                "the opposite direction - is also a MISMATCH."
             ),
             "criteria": {
-                "true": "Both frames shot from the same camera position and viewpoint.",
-                "false": "Different camera sides, viewpoints, or heights - the video would visibly jump.",
+                "true": "Both frames shot from the same camera position and viewpoint, same left-right orientation.",
+                "false": "Different camera sides, viewpoints, heights, or a mirrored left-right flip - the video would visibly jump.",
             },
         },
     }
