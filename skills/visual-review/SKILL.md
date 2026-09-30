@@ -1,3 +1,9 @@
+---
+name: visual-review
+description: Two-layer visual gate for Storybook UI work. Pixel-diff baselines per story catch regressions, then Jev judges new or changed stories from extracted layout facts. Use when checking UI changes in a Storybook corpus for overlaps, clipped content, and off-center brand marks before merge.
+compatibility: Layer 1 needs Storybook, pngjs, and pixelmatch in the project. The Jev judge needs the typesafe skill's credential helper and the custom.typesafe connector, which exist only on the hatch host.
+---
+
 # visual-review
 
 Two-layer visual gate for UI work: cheap pixel-diff screenshot baselines catch
@@ -20,12 +26,14 @@ animations paused, and diffs against `baselines/`. Per-story threshold
 (0.1%, min 25px) plus a global cap. Output: `.storybook/visual-diffs/report.json`
 with `added` / `removed` / `changed` story lists.
 
+Run these with the project's package manager (`pnpm` on Shopify machines):
+
 ```bash
-npm run ui:visual            # full gate: render + diff, exits non-zero on fail
-npm run ui:visual:update     # re-render baselines after intentional changes
+pnpm run ui:visual            # full gate: render + diff, exits non-zero on fail
+pnpm run ui:visual:update     # re-render baselines after intentional changes
 ```
 
-Requires: `pngjs`, `pixelmatch` (`npm i -D pngjs pixelmatch`).
+Requires: `pngjs`, `pixelmatch` (`pnpm add -D pngjs pixelmatch`).
 
 ## Layer 2 — Jev semantic judge (runs where the TypeSafe credential lives)
 
@@ -50,8 +58,8 @@ and writes `.storybook/layout-facts/<story-id>.json`:
   containment.
 
 ```bash
-npm run ui:layout-facts              # all stories (~50s for 273)
-npm run ui:layout-facts -- --changed # only stories the pixel gate flagged
+pnpm run ui:layout-facts              # all stories (~50s for 273)
+pnpm run ui:layout-facts -- --changed # only stories the pixel gate flagged
 ```
 
 ### 2b. Judge the facts (agent host)
@@ -82,17 +90,20 @@ bin/jev_review.py <file>...            # specific stories
 
 `bin/semantic_review.py` — one command that runs the whole layer-2 flow across
 both machines. It drives the Storybook host through a remote-execution helper
-(default `~/workspace/bin/macstudio`; override with `--studio`):
+(default `~/workspace/bin/macstudio`; override with `--studio`). `--repo` names
+the project checkout on the Studio, and `--pm` names its package manager
+(`npm` or `pnpm`, default `npm`):
 
-1. `npm run ui:visual` on the Studio (pixel gate, writes `report.json`).
+1. `<pm> run ui:visual` on the Studio (pixel gate, writes `report.json`).
 2. Reads NEW/CHANGED story ids from the report.
-3. `npm run ui:layout-facts -- --changed` on the Studio.
+3. `<pm> run ui:layout-facts -- --changed` on the Studio.
 4. Fetches those facts files back to the agent host.
 5. Runs the Jev judge on each.
 
 ```bash
-bin/semantic_review.py                 # full flow; exit 1 if any story needs REVIEW
-bin/semantic_review.py --skip-visual   # reuse the latest pixel-gate report
+bin/semantic_review.py --repo ~/Development/<project>                # full flow; exit 1 if any story needs REVIEW
+bin/semantic_review.py --repo ~/Development/<project> --skip-visual  # reuse the latest pixel-gate report
+bin/semantic_review.py --repo ~/Development/<project> --pm pnpm      # project uses pnpm
 ```
 
 Exit 0 means no changed stories, or every changed story PASSed. Only the facts
@@ -101,10 +112,12 @@ JSONs cross machines — the TypeSafe credential never leaves the agent host.
 ## Wiring a new project
 
 1. Copy `scripts/storybook_visual.cjs` and `scripts/storybook_layout_facts.cjs`
-   into the project; add the `ui:visual` / `ui:layout-facts` npm scripts.
-2. Copy this skill's `bin/` to the agent host. `jev_review.py` imports the
-   `typesafe` skill's `bin/jev.py` for auth (same host, no credential copying).
-3. Run `bin/semantic_review.py` (adjust `--studio` for your Storybook host).
+   into the project; add the `ui:visual` / `ui:layout-facts` package scripts.
+2. Install this whole repo on the agent host. `jev_review.py` imports
+   `../../typesafe/bin/jev.py` from beside itself for auth (same host, no
+   credential copying), so the two skills must stay together.
+3. Run `bin/semantic_review.py --repo <project>` (adjust `--studio` and `--pm`
+   for your Storybook host).
 
 ## Known limits
 

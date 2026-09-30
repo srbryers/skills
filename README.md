@@ -22,6 +22,19 @@ skills/<name>/
   screenshot baselines per story catch regressions, then Jev judges new/changed
   screens semantically from extracted layout facts. Born from the Prelude
   paywall wordmark incident.
+- **exercise-form-review**: blind visual QA for exercise demo keyframes and
+  clips against the program's form cues and a locked style spec. The judge is
+  never told what flaws are suspected.
+
+## Install in Pi
+
+```bash
+pi install git:github.com/srbryers/skills
+```
+
+Pi loads each `skills/<name>/SKILL.md` from its frontmatter. The Jev calls
+still need the hatch host's credential helper and the `custom.typesafe`
+connector, so on other hosts the skills load but their Jev steps fail.
 
 ## Roadmap
 
