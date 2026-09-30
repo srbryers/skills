@@ -18,10 +18,10 @@ skills/<name>/
 - **typesafe** — call Jev (TypeSafe System One) to classify text with typed
   questions. `bin/jev.py ask` posts a state plus `choice`/`score`/`noul`
   questions to `https://api.typesafe.ai/v1/systemone`.
-- **visual-review** (landing next) — two-layer visual gate for UI work: cheap
-  pixel-diff screenshot baselines per story catch regressions, then Jev judges
-  new/changed screens semantically from extracted layout facts. Born from the
-  Prelude paywall wordmark incident.
+- **visual-review** — two-layer visual gate for UI work: cheap pixel-diff
+  screenshot baselines per story catch regressions, then Jev judges new/changed
+  screens semantically from extracted layout facts. Born from the Prelude
+  paywall wordmark incident.
 
 ## Roadmap
 
