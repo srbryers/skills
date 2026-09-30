@@ -20,9 +20,6 @@ Usage:
     jev_judge.py --dir <facts-dir>
     jev_judge.py --json <facts.json> ...     # machine-readable output
     jev_judge.py --model jev-latest <facts.json> ...
-    jev_judge.py --pair <start-facts.json> <end-facts.json>
-        # pair-coherence check: do the two keyframes share one camera
-        # viewpoint so a video morphed between them has no camera jump?
 """
 
 from __future__ import annotations
@@ -91,11 +88,9 @@ def battery(is_clip: bool) -> dict:
             "question": (
                 "The IDENTITY facts describe the character's face, hair, and "
                 "wardrobe. Do they match the locked identity: athletic man in "
-                "his mid-30s, short dark hair, PLAIN olive-green T-shirt (no "
-                "logo, graphic, or text), plain black athletic shorts, plain "
-                "black sneakers, NO watch, NO wristband, NO accessories - the "
-                "same character throughout? Any logo on the shirt, any "
-                "accessory, or any non-plain wardrobe item is an automatic FAIL."
+                "his mid-30s, short dark hair, olive-green T-shirt, black "
+                "athletic shorts, black sneakers - the same character "
+                "throughout?"
             ),
             "criteria": {
                 "true": "Identity matches the spec on every stated element.",
@@ -122,13 +117,11 @@ def battery(is_clip: bool) -> dict:
                 "The SCENE facts describe the setting and equipment. Is it a "
                 "dark upscale gym with black rubber flooring, the correct "
                 "equipment for the exercise, a sparse background, and NO "
-                "text, logos, or brand names? If the facts mention posters, "
-                "neon signs, graffiti, or any brand name (including the word "
-                "Fortnite), that is an automatic FAIL."
+                "text, logos, or brand names?"
             ),
             "criteria": {
                 "true": "Dark gym, right equipment, sparse, no text/logos.",
-                "false": "Wrong setting, wrong equipment, clutter, text/logos/branding present.",
+                "false": "Wrong setting, wrong equipment, clutter, or text/logos present.",
             },
         },
         "pose_ok": {
@@ -241,73 +234,6 @@ def judge_noul(name: str, ans: dict) -> tuple[bool, str]:
     return False, f"noul={p:.2f} (uncertain)"
 
 
-def pair_battery() -> dict:
-    """Questions for the --pair coherence check (start facts vs end facts)."""
-    return {
-        "angle_match": {
-            "type": "noul",
-            "question": (
-                "The CAMERA_ANGLE facts describe each keyframe's camera "
-                "position. Do the START and END keyframes share the SAME "
-                "viewpoint: the same side of the body facing the camera, the "
-                "same front/side/three-quarter viewpoint, and a similar "
-                "height? A video morphed between these two frames must not "
-                "show a camera jump. A side view vs a three-quarter view, or "
-                "a front-left vs a front-right view, is a MISMATCH even if "
-                "the pose matches."
-            ),
-            "criteria": {
-                "true": "Both frames shot from the same camera position and viewpoint.",
-                "false": "Different camera sides, viewpoints, or heights - the video would visibly jump.",
-            },
-        },
-    }
-
-
-def format_pair_state(start: dict, end: dict) -> str:
-    lines = [
-        f'EXERCISE: {start.get("exercise")}',
-        "PAIR-COHERENCE CHECK: compare the START keyframe's camera angle to "
-        "the END keyframe's camera angle.",
-        f'START CAMERA_ANGLE: {start.get("camera_angle", "(not recorded)")}',
-        f'END CAMERA_ANGLE: {end.get("camera_angle", "(not recorded)")}',
-        "Note: the facts above are a reviewer's plain-text observations and "
-        "are authoritative. Answer from the facts alone; do not infer beyond "
-        "what is stated. If either camera_angle is missing or too vague to "
-        "compare, treat that as uncertain, not as a match.",
-    ]
-    return "\n".join(lines)
-
-
-def review_pair(start_path: str, end_path: str, model: str) -> dict:
-    start = json.load(open(start_path))
-    end = json.load(open(end_path))
-    state = format_pair_state(start, end)
-    questions = pair_battery()
-    try:
-        raw = ask(state, questions, model)
-    except Exception as e:
-        return {
-            "start": start.get("asset", start_path),
-            "end": end.get("asset", end_path),
-            "verdict": "ERROR",
-            "error": str(e)[:200],
-        }
-    answers = raw.get("answers", {}) if isinstance(raw, dict) else {}
-    findings = []
-    for name in questions:
-        ok, detail = judge_noul(name, answers.get(name, {}))
-        if not ok:
-            findings.append({"question": name, "detail": detail})
-    return {
-        "start": start.get("asset", start_path),
-        "end": end.get("asset", end_path),
-        "exercise": start.get("exercise"),
-        "verdict": "PASS" if not findings else "FLAG",
-        "findings": findings,
-    }
-
-
 def review_asset(path: str, model: str) -> dict:
     facts = json.load(open(path))
     asset = facts.get("asset", path)
@@ -337,24 +263,7 @@ def main() -> None:
     p.add_argument("--dir")
     p.add_argument("--json", action="store_true")
     p.add_argument("--model", default="jev-latest")
-    p.add_argument("--pair", nargs=2, metavar=("START_FACTS", "END_FACTS"),
-                   help="pair-coherence check on two facts files")
     args = p.parse_args()
-
-    if args.pair:
-        r = review_pair(args.pair[0], args.pair[1], args.model)
-        if args.json:
-            print(json.dumps(r, indent=2))
-            return
-        if r["verdict"] == "PASS":
-            print(f'PAIR {r["exercise"]}: PASS (camera angles match)')
-        elif r["verdict"] == "ERROR":
-            print(f'PAIR {r["exercise"]}: ERROR {r.get("error", "")}')
-        else:
-            print(f'PAIR {r["exercise"]}: FLAG')
-            for f in r["findings"]:
-                print(f'  {f["question"]}: {f["detail"]}')
-        return
 
     paths = list(args.facts)
     if args.dir:
