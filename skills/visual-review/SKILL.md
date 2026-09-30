@@ -78,14 +78,33 @@ bin/jev_review.py --dir <dir> --json   # machine-readable
 bin/jev_review.py <file>...            # specific stories
 ```
 
+## End-to-end entry point
+
+`bin/semantic_review.py` — one command that runs the whole layer-2 flow across
+both machines. It drives the Storybook host through a remote-execution helper
+(default `~/workspace/bin/macstudio`; override with `--studio`):
+
+1. `npm run ui:visual` on the Studio (pixel gate, writes `report.json`).
+2. Reads NEW/CHANGED story ids from the report.
+3. `npm run ui:layout-facts -- --changed` on the Studio.
+4. Fetches those facts files back to the agent host.
+5. Runs the Jev judge on each.
+
+```bash
+bin/semantic_review.py                 # full flow; exit 1 if any story needs REVIEW
+bin/semantic_review.py --skip-visual   # reuse the latest pixel-gate report
+```
+
+Exit 0 means no changed stories, or every changed story PASSed. Only the facts
+JSONs cross machines — the TypeSafe credential never leaves the agent host.
+
 ## Wiring a new project
 
 1. Copy `scripts/storybook_visual.cjs` and `scripts/storybook_layout_facts.cjs`
    into the project; add the `ui:visual` / `ui:layout-facts` npm scripts.
-2. Copy this skill's `bin/jev_review.py` to the agent host (it imports the
-   `typesafe` skill's `bin/jev.py` for auth — see the `JEV_IMPORT` fallback
-   chain at the top of the file).
-3. Run layer 1, extract facts for `--changed`, fetch the JSONs, run the judge.
+2. Copy this skill's `bin/` to the agent host. `jev_review.py` imports the
+   `typesafe` skill's `bin/jev.py` for auth (same host, no credential copying).
+3. Run `bin/semantic_review.py` (adjust `--studio` for your Storybook host).
 
 ## Known limits
 
@@ -97,5 +116,7 @@ bin/jev_review.py <file>...            # specific stories
   something odd, look at the story before the code.
 - Calibrated 2026-09-30 on 273 Prelude stories: 1 real bug found
   (`prelude-transcript-review--long-reply` — long reply text overflows its
-  card, verified in a screenshot), zero false positives in the deterministic
-  layer. Do not fix flagged stories from the gate — report them.
+  card, verified in a screenshot and fixed), zero false positives in the
+  deterministic layer after the scrollport-clamp fix (elements inside vertical
+  scrollers report their visible rect, not their full content height). Do not
+  fix flagged stories from the gate — report them.
