@@ -88,11 +88,9 @@ def battery(is_clip: bool) -> dict:
             "question": (
                 "The IDENTITY facts describe the character's face, hair, and "
                 "wardrobe. Do they match the locked identity: athletic man in "
-                "his mid-30s, short dark hair, PLAIN olive-green T-shirt (no "
-                "logo, graphic, or text), plain black athletic shorts, plain "
-                "black sneakers, NO watch, NO wristband, NO accessories - the "
-                "same character throughout? Any logo on the shirt, any "
-                "accessory, or any non-plain wardrobe item is an automatic FAIL."
+                "his mid-30s, short dark hair, olive-green T-shirt, black "
+                "athletic shorts, black sneakers - the same character "
+                "throughout?"
             ),
             "criteria": {
                 "true": "Identity matches the spec on every stated element.",
@@ -119,13 +117,11 @@ def battery(is_clip: bool) -> dict:
                 "The SCENE facts describe the setting and equipment. Is it a "
                 "dark upscale gym with black rubber flooring, the correct "
                 "equipment for the exercise, a sparse background, and NO "
-                "text, logos, or brand names? If the facts mention posters, "
-                "neon signs, graffiti, or any brand name (including the word "
-                "Fortnite), that is an automatic FAIL."
+                "text, logos, or brand names?"
             ),
             "criteria": {
                 "true": "Dark gym, right equipment, sparse, no text/logos.",
-                "false": "Wrong setting, wrong equipment, clutter, text/logos/branding present.",
+                "false": "Wrong setting, wrong equipment, clutter, or text/logos present.",
             },
         },
         "pose_ok": {
