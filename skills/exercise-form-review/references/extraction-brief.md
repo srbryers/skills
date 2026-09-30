@@ -30,6 +30,16 @@ For each asset, fill every schema field with 1-3 plain sentences:
 - For clips (judged from a contact sheet of 6-8 evenly spaced frames), describe
   what changes frame to frame in `motion`, compare the last frame to the first
   in `loop`, and note any morphing or flicker in `stability`.
+- For `camera_angle`, describe the camera's position relative to the subject in
+  one concrete sentence: which side of the body faces the camera, the
+  viewpoint (front, side, or three-quarter), and the height (low near the
+  floor, chest-level, or high looking down). E.g. "The camera is at the
+  subject's front-left at chest height, showing a three-quarter view" or
+  "The camera is directly to the subject's left side near floor level,
+  showing a pure side profile." This field lets the pair check verify the
+  start and end share one viewpoint - be specific enough that a side view
+  and a three-quarter view, or a front-left and a front-right view, read as
+  different.
 - For `scene`, describe the setting in 2-3 sentences: the type of space, the
   flooring, the lighting, the background equipment. Then EXPLICITLY state
   whether you see any of the following, quoting what you see: posters, signs,

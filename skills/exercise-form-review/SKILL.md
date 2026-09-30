@@ -126,6 +126,20 @@ intentionally shows setup -> deep (the stretch being applied); for isometric
 holds, start and end are the held position. When a pair is mismatched,
 regenerate the end to match the start (or vice versa — keep the good frame).
 
+Camera-angle lock (mandatory): the start and end keyframes must share ONE
+camera viewpoint — same side of the body facing the camera, same
+front/side/three-quarter viewpoint, similar height. A video morphed between
+mismatched angles visibly jumps even when the pose is perfect. Proven
+2026-09-30: dead-bug (low side view vs higher frontal), lying-leg-curl
+(front-left vs mirrored front-right), frog-stretch (side view vs
+three-quarter) — all three ends had to be regenerated. Rules:
+- The extraction records `camera_angle` per keyframe (facts-schema.json).
+- `jev_judge.py --pair <start-facts.json> <end-facts.json>` runs the
+  angle_match check; FLAG means regenerate.
+- When generating an end to match a start, pass the start's camera angle
+  explicitly (prompt_builder `camera_angle` parameter) — never rely on the
+  default angle.
+
 Operator review: after 2 retries fail on uncertainty-only flags (no
 confident defect), a human inspects the image and may clear it, recording an
 `operator_review` note. This override does NOT apply to confirmed defects.
