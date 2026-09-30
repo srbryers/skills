@@ -30,20 +30,6 @@ For each asset, fill every schema field with 1-3 plain sentences:
 - For clips (judged from a contact sheet of 6-8 evenly spaced frames), describe
   what changes frame to frame in `motion`, compare the last frame to the first
   in `loop`, and note any morphing or flicker in `stability`.
-- For `scene`, describe the setting in 2-3 sentences: the type of space, the
-  flooring, the lighting, the background equipment. Then EXPLICITLY state
-  whether you see any of the following, quoting what you see: posters, signs,
-  neon lights, text, logos, brand names, graffiti, or branded products. If the
-  background is clean with no text or branding, say so explicitly
-  (\"No posters, signs, text, or logos are visible.\"). Do not write \"Dark
-  gym.\" — describe what makes it dark, what the gym contains, and what is
-  (or is not) on the walls.
-- For `identity`, describe the face, hair, AND the full wardrobe piece by
-  piece. State whether the T-shirt is plain olive-green or has any logo,
-  graphic, or text on it. Note any accessories: watches, wristbands, jewelry,
-  hats. Note the shorts (plain black?) and sneakers (plain black?).
-- For `style`, confirm the render look in a full sentence. If it looks like a
-  specific game or cartoon brand (not just \"stylized 3D\"), say which one.
 
 ## What NOT to write
 
