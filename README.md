@@ -36,6 +36,16 @@ Pi loads each `skills/<name>/SKILL.md` from its frontmatter. The Jev calls
 still need the hatch host's credential helper and the `custom.typesafe`
 connector, so on other hosts the skills load but their Jev steps fail.
 
+- **builder-ops** - launch, monitor, and finish Claude Code or Codex builder sessions on the Mac Studio.
+- **studio-ops** - diagnose Mac Studio infrastructure, local GitHub Actions runners, processes, and disk pressure.
+- **model-router** - choose models with the routing cards, verify callable routes, and log outcomes for calibration.
+- **pr-ship-gate** - run the Prelude PR merge and ship gate across checks, kit status, staging, EAS, and device state.
+- **kit-curator** - run the Agentic UI Kit promotion gate for components, primitives, and design tokens.
+- **supabase-edge-ops** - operate Prelude Supabase edge functions and database changes safely.
+- **sim-lab** - run and interpret Prelude onboarding simulated-user sims.
+- **decision-board** - run an independent Claude plus Codex review board with Jev as judge.
+- **stackdiff-producer** - produce Sebastian's weekly stackdiff drafts from GitHub work.
+
 ## Roadmap
 
 - Migrate working skills here as they prove out (visual-review first).
