@@ -26,6 +26,8 @@ skills/<name>/
   clips against the program's form cues and a locked style spec. The judge is
   never told what flaws are suspected.
 
+- **kit-curator** - the Agentic UI Kit promotion gate for a UI PR in any kit repo (Prelude, Flora Studio, ui-kit, Wedding): contract, stories, light and dark baselines, an independent reviewer, then the shared `kit-inventory` check plus the repo's own gate. Repo paths live in its profile table.
+
 - **plain-language** - the adopted copy standard: plain language, UK/US federal style (ISO 24495-1, GOV.UK, Digital.gov) with Microsoft/Mailchimp tone and a CEFR B1 reader; 14 enforceable rules for user-visible copy.
 
 ## Install in Pi
