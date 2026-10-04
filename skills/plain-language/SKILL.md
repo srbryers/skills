@@ -18,7 +18,7 @@ Plain language, UK/US federal style, with a conversational product voice:
 - Long-form tripwire: Shopify Polaris aims at grade 7; the house bar is US grade 8 or Flesch Reading Ease 60+ on surfaces of 100 words or more only.
 - Spelling: US by default. GOV.UK substitution lists still apply regardless of spelling.
 
-Project house laws sit on top of this standard and win on their own surfaces (for example Prelude: no em dashes, never the word "soft", "My words for the room" stays).
+Project house laws sit on top of this standard and win on their own surfaces (for example Prelude: no em dashes, never the word "soft", the saved-words feature is called "What I'll say").
 
 ## The 14 rules
 1. **Audience test first.** Every string must let its reader find, understand, and use it on first read. If it needs a second read, rewrite. (US Plain Writing Act; ISO 24495-1)

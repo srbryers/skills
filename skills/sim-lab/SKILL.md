@@ -37,4 +37,4 @@ Report:
 - A Jev flag is a review signal, not proof. A deterministic fail is a blocker until explained.
 - Keep cost visible. If a suite run is unexpectedly expensive or loops, stop and report before repeating it.
 - Never hide a failed run inside a later pass. Name both.
-- "My words for the room" is the feature name. Use `flow`, never `beats`.
+- "What I'll say" is the feature name. Use `flow`, never `beats`.
