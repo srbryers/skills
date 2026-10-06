@@ -1,6 +1,6 @@
 ---
 name: ui-review
-description: Run stepwise UI review with the product owner, record durable design decisions, and track their effects on flows, shared components, tokens, kit releases and consumer rollout. Use when preparing an interactive or Storybook review, handling UI feedback, or carrying an agreed UI change through adoption. Does not replace visual QA, technical review or release gates.
+description: Run stepwise product-owner UI design review, record their feedback and decisions, and track downstream flow, component, token, kit and consumer rollout. Use when preparing an interactive or Storybook design review for the product owner, recording their UI feedback, or carrying their agreed change through adoption. Ordinary Storybook render, regression or visual QA uses the existing technical review workflow.
 ---
 
 # UI review
