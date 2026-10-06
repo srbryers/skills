@@ -30,6 +30,8 @@ skills/<name>/
 
 - **plain-language** - the adopted copy standard: plain language, UK/US federal style (ISO 24495-1, GOV.UK, Digital.gov) with Microsoft/Mailchimp tone and a CEFR B1 reader; 14 enforceable rules for user-visible copy.
 
+- **ui-review** - stepwise interactive and Storybook review with the product owner, durable feedback and decisions, and downstream kit/consumer rollout. Complements visual QA and kit promotion.
+
 ## Install in Pi
 
 ```bash
