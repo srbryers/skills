@@ -21,6 +21,14 @@ Use the same implementation in the app and its stories. A native-app browser pre
 
 For first-run review, start at the actual landing screen. Advance through user actions, one screen or message beat at a time. Do not default to completed history, inject learner answers or skip consent. Returning and failure fixtures are explicit, separate states. Follow an explicit request for a whole-flow review instead when that is the user's intent.
 
+## Require kit compliance
+
+Apply the project's kit rules to every review surface: app screens, prototypes, mocks and Storybook. Before implementation, choose an existing reviewed component and shared tokens. Add a missing reusable pattern to the owning kit with real stories; do not create a preview-only substitute. Mocks replace services and data, not the product's controls or motion.
+
+Run the project's mandatory inventory, strict adoption, type and relevant interaction checks. A separate prototype compiler boundary needs its own checks; passing app types cannot cover excluded prototype code. Bind evidence to the actual reviewed source and kit artifact. Require distinct source review and affected consumer checks after shared changes. Do not create debt exceptions or refresh approval hashes to make a gate pass.
+
+A usable draft can receive focused product feedback while gaps remain. State failed or missing checks and platform limits on its review card. Do not call it kit-compliant, complete or adopted while required evidence is open. Product-owner taste acceptance does not close engineering, artifact, native or rollout gates.
+
 ## Prepare before asking for feedback
 
 Exercise the requested path yourself. Check reset, back, retry and draft preservation where relevant. Render the relevant loading, empty, error, disabled, permission and consent states. Check themes, supported widths, larger text, reduced motion, labels, focus and touch targets appropriate to the change.
