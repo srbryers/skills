@@ -23,6 +23,10 @@ Read the repo's boot doc first; it wins over this table when they disagree.
 
 For a repo not in the table, ask which file is the inventory and which command is the gate before starting. Do not guess.
 
+## Product-owner review
+
+When preparing a taste check or carrying user feedback into adoption, use [ui-review](../ui-review/SKILL.md). It keeps review slices small and records decisions, affected consumers and rollout. Technical promotion checks below remain separate.
+
 ## Workflow
 1. Work in the branch's own checkout or worktree. Find the repo's profile above and read its boot doc.
 2. Diff the branch against its base and list every added or changed reusable primitive or token: components, contracts, story files and token files (for example `constants/motion.ts` in Prelude, `gallery/src/styles/workbench.css` in Flora, `packages/tokens/src` in ui-kit).
