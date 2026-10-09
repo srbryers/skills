@@ -55,8 +55,10 @@ Report that coverage gap. Do not run unrelated project suites to fill it.
 | Branch settings | `main` protection returned **404: Branch not protected**; rulesets were empty |
 | Required checks/reviewers | No configured names found through those settings; manual gates remain |
 | Human owner | **Sebastian** for merge, installation/adoption and external actions in this task's context |
+| External app checks | The live PR runs GitGuardian Security Checks; its service settings and gate owner remain **unresolved** |
+| CodeQL | Live default setup is not configured |
 
-This source runs no CI on a docs PR.
+This source runs no Actions workflow on a docs PR. The external GitGuardian check still runs.
 Keep exact local receipts and get independent review. Do not invent a green CI gate.
 Account settings and consumer environment gate owners are **unresolved** beyond the repo settings checked here.
 
