@@ -24,7 +24,7 @@ Read the repo's boot doc first; it wins over this table when they disagree.
 
 For a repo not in the table, ask which file is the inventory and which command is the gate before starting. Do not guess.
 
-Pi Station has no hashed inventory. Record the review per component in the PR body (step 5, "without it"). Its light and dark baselines are generated at the release tip, not committed, so list baseline coverage as a known limit in the PR. The kit audit exits 1 on any finding, and findings already on the base don't block the PR. It reads only `Screens/` stories, so a new part with no screen yet relies on its own stories and specs. Motion: a background, colour, border, or shadow fade at `--fast` is the kit's standard hover fade, and `atoms.css` handles reduced motion for every part. Ask before any other transition, animation, or keyframes. Use pnpm, never npm or npx.
+Pi Station has no hashed inventory. Record the review per component in the PR body (step 5, "without it"). Its light and dark baselines are generated at the release tip, not committed, so list baseline coverage as a known limit in the PR. The kit audit exits 1 on any finding, and findings already on the base don't block the PR. It reads only `Screens/` stories, so a new part with no screen yet relies on its own stories and specs. Motion: a background, colour, border, or shadow fade at `--fast` or `--m-hover-out` (the hover-out token in `web/src/tokens.css`) is the kit's standard hover fade, and `atoms.css` handles reduced motion for every part. Ask before any other transition, animation, or keyframes. Use pnpm, never npm or npx.
 
 ## Workflow
 1. Work in the branch's own checkout or worktree. Find the repo's profile above and read its boot doc.
