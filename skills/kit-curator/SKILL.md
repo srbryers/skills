@@ -20,8 +20,11 @@ Read the repo's boot doc first; it wins over this table when they disagree.
 | Flora Studio (`flora-studio`, base branch `preview`) | `docs/design/agentic-ui-kit.md` | `gallery/src/components/kit/kit-inventory.json` (`flora` format, root `gallery`) | `gallery/src/components/kit/contracts.ts` (one file) | as `.agents/skills/review-effort/SKILL.md` says | `cd gallery && npm run ui:gate && npm run kit:inventory:check && npm run kit:screens:check` |
 | ui-kit (`ui-kit`) | `AGENTS.md` | `packages/kit-rn/registry.json` (generated from contracts; never hand-edit) | `packages/kit-rn/src/**/<Name>.contract.ts` | PR body | `npm run check`, `npm run check:canfail`, `npm run visual` |
 | Wedding (`wedding`) | `docs/ui-kit.md` | `docs/design/2026-09-22-component-review/review-ledger.json` | none yet | `docs/design/<date>-*/` | `npm run ui-kit:inventory`, `npm run check` |
+| Pi Station (`pi-station`, base `master`) | `docs/kit-guide.md` (generated), then `scripts/kit-audit/README.md` | `web/src/ui/catalog.ts`: one entry per component, no hashes, so `kit-inventory` does not apply | The catalog entry: `useFor`, `notFor`, states, markers, `alike`, `truncates` | PR body, one block per component | `pnpm kit-guide` leaves no diff; `pnpm kit-audit --static-only`; `pw-slot pnpm kit-audit` for the PR's stories; `pnpm kit-audit:full` once at the release tip |
 
 For a repo not in the table, ask which file is the inventory and which command is the gate before starting. Do not guess.
+
+Pi Station has no hashed inventory. Record the review per component in the PR body (step 5, "without it"). Its light and dark baselines are generated at the release tip, not committed, so list baseline coverage as a known limit in the PR. Use pnpm, never npm or npx.
 
 ## Workflow
 1. Work in the branch's own checkout or worktree. Find the repo's profile above and read its boot doc.
