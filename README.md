@@ -1,5 +1,7 @@
 # skills
 
+Read [CI/CD.md](CI/CD.md) first for repository checks, skill distribution and remaining approval gates.
+
 Sebastian's reusable skills library. Each skill is a folder with a `SKILL.md`
 (playbook) plus its scripts — the same format Muse reads natively, so anything
 here works across all his projects with no conversion.
