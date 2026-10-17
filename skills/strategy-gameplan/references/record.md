@@ -24,6 +24,18 @@ The four lists before `decisions` hold objects whose details can grow with the d
 - `actors`: participant, interests, moves, and possible responses. Label response predictions as hypotheses.
 - `routes`: stable `id`, path, dependencies, assumptions, risks, and value if stopped. Use conditional horizons rather than invented dates.
 
+## Mission
+
+Add an optional `mission` object when developing the company's purpose. Existing v1 sessions without it remain valid.
+
+Use `status` (`exploring`, `proposed` or `accepted`) and `statement` for the current wording. Store `human_stakes`, `beneficiaries`, `frontier`, `contributor_role`, `near_term_proof`, `objections` and `candidates` as useful discussion notes. Record recruitment evidence and its source separately; `resonance` can remain `untested`.
+
+A proposed or accepted mission needs a nonempty `statement`. Accepted means the founder chose the mission. It requires an `owner_receipt` with `by` and `source`; it does not establish recruitment appeal.
+
+`brief` includes the mission and its recorded status. The helper checks these structural boundaries, without scoring inspiration or asserting that people will join.
+
+## Decisions
+
 Each decision starts with `id`, `question`, `status` and an `options` list. Status is `exploring`, `proposed`, `accepted`, `rejected` or `deferred`.
 
 Each option has a stable `id` and an `action`. Before presenting a decision, add `upside`, `downside`, `commitment` and `reversibility` to each option. Use descriptions or sourced ranges. A single-option decision needs `alternatives_limited_because`.

@@ -56,6 +56,18 @@ def check_record(record, decision_id=None):
     if record.get("schema") != SCHEMA:
         errors.append(f"schema must be {SCHEMA}")
     text_fields(record, ("title", "north_star"), "session", errors)
+    if "mission" in record:
+        mission = record["mission"]
+        if not isinstance(mission, dict):
+            errors.append("mission must be an object")
+        else:
+            status = mission.get("status")
+            if not isinstance(status, str) or status not in {"exploring", "proposed", "accepted"}:
+                errors.append("mission.status must be exploring, proposed or accepted")
+            if status in ("proposed", "accepted"):
+                text_fields(mission, ("statement",), "mission", errors)
+            if status == "accepted":
+                text_fields(mission.get("owner_receipt"), ("by", "source"), "mission.owner_receipt", errors)
     for field in ("criteria", "position", "actors", "routes"):
         items = object_list(record, field, "session", errors)
         if field == "position":
@@ -108,6 +120,9 @@ def make_record(title, north_star):
 
 def brief(record):
     lines = [f"# {record['title']}", "", "> " + record["north_star"], ""]
+    if "mission" in record:
+        lines.extend(["## Mission", "", "```json",
+                      json.dumps(record["mission"], ensure_ascii=False, indent=2), "```", ""])
     for section in ("criteria", "position", "actors", "routes"):
         lines.extend([f"## {section.capitalize()}", ""])
         for item in record[section]:

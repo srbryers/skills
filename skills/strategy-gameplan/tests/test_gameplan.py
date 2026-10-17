@@ -44,6 +44,24 @@ class GameplanTests(unittest.TestCase):
         self.assertEqual(gameplan.check_record(record), [])
         self.assertTrue(gameplan.check_record(record, "D001"))
 
+    def test_mission_is_optional_visible_and_separates_acceptance_from_appeal(self):
+        record = gameplan.make_record("Example", "Keep this North Star unchanged")
+        self.assertEqual(gameplan.check_record(record), [])
+        record["mission"] = {"status": "exploring", "resonance": "untested"}
+        self.assertEqual(gameplan.check_record(record), [])
+        record["mission"].update(status="proposed", statement="")
+        self.assertTrue(gameplan.check_record(record))
+        record["mission"].update(status="accepted", statement="A mission the founder chose")
+        self.assertTrue(gameplan.check_record(record))
+        record["mission"]["owner_receipt"] = {"by": "Owner", "source": "Fictional test receipt"}
+        self.assertEqual(gameplan.check_record(record), [])
+        rendered = gameplan.brief(record)
+        self.assertIn("Keep this North Star unchanged", rendered)
+        self.assertIn("A mission the founder chose", rendered)
+        self.assertIn('"resonance": "untested"', rendered)
+        record["mission"] = "A slogan without a record"
+        self.assertTrue(gameplan.check_record(record))
+
     def test_incomplete_gate_cannot_be_presented_as_complete(self):
         record = self.candidate()
         self.assertEqual(gameplan.check_record(record, "D001"), [])

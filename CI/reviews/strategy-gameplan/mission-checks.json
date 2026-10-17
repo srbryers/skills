@@ -1,0 +1,19 @@
+{
+  "date": "2026-10-17",
+  "change": "Owner requested mission and contributor motivation as part of strategy development.",
+  "checks": [
+    {
+      "command": "python -m unittest discover -s skills/strategy-gameplan/tests -v",
+      "result": "7 passed; new mission check covers old-session compatibility, brief visibility, owner receipt and untested appeal"
+    },
+    {
+      "command": "skill-creator quick_validate.py skills/strategy-gameplan",
+      "result": "Skill is valid"
+    },
+    {
+      "command": "git diff --check",
+      "result": "pass"
+    }
+  ],
+  "scope": "Mission addition; original forward-test evidence retained. No provider or product checks."
+}

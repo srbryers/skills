@@ -18,7 +18,7 @@
     },
     {
       "path": "skills/strategy-gameplan/SKILL.md",
-      "sha256": "34f36fff5fbb9b33542aeebd781e53b822f5277a6dee742c04f84946ee9f9af2",
+      "sha256": "62f95dd69d5d353c33c244c818dcc38988efff10811e01bab67330b5768a04c4",
       "encoding": "utf8-lf"
     },
     {
@@ -28,17 +28,17 @@
     },
     {
       "path": "skills/strategy-gameplan/bin/gameplan.py",
-      "sha256": "cae32ce7430a37f8a7e24f28e8855a0f9b588323520f69775408d0ac88247262",
+      "sha256": "900a5ce918d40e4b2c1780f034c5b25fd157b259badc3e114bf45bc2d53ebed0",
       "encoding": "utf8-lf"
     },
     {
       "path": "skills/strategy-gameplan/references/record.md",
-      "sha256": "9fa64aaf766e0293f151d09319133380abea71865b8391a2f36c57dc16c38b25",
+      "sha256": "a198d44d296ae4049228b917b77d8f9cafd39e33ee8f19ac2084c88d292496e3",
       "encoding": "utf8-lf"
     },
     {
       "path": "skills/strategy-gameplan/tests/test_gameplan.py",
-      "sha256": "3415d4d4d352b2c5e511c590af427923f49face6644892994fb9091138766ac1",
+      "sha256": "2c47832eb6e1157aaf84656f5e289523960bab7a43d81e1c4d048172cb42f55b",
       "encoding": "utf8-lf"
     }
   ],
@@ -49,11 +49,46 @@
         "path": "CI/reviews/strategy-gameplan/checks.json",
         "sha256": "a813bade03befccee0031a8174da9c8ff4993f7f3df1ce1a042ef70dc7dc8b7b",
         "encoding": "utf8-lf"
+      },
+      {
+        "path": "CI/reviews/strategy-gameplan/mission-checks.json",
+        "sha256": "8884f509be09a026fb05cc72eb8aff190e67cc11a300f9d5df47d1dcdaf3be14",
+        "encoding": "utf8-lf"
       }
     ],
-    "evidence_fingerprint": "1f30d32022eac5ba59e2d4a77f85ef08deb09febb9e6f298e3122d4a221397ed"
+    "evidence_fingerprint": "d39f69877158c42a9bae5b06a03740c4a79e56809a22bfb16994af2ab3a6a70a"
   },
-  "findings": [],
+  "findings": [
+    {
+      "id": "M1",
+      "summary": "Owner identified that route planning omits a mission that explains human stakes and why contributors would choose the work. The added workflow and optional record must preserve the North Star, keep appeal unproven, and avoid blocking ordinary delivery on slogan polish.",
+      "owner": "Codex",
+      "blocking": true,
+      "status": "resolved",
+      "evidence": [
+        {
+          "path": "skills/strategy-gameplan/SKILL.md",
+          "sha256": "62f95dd69d5d353c33c244c818dcc38988efff10811e01bab67330b5768a04c4",
+          "encoding": "utf8-lf"
+        },
+        {
+          "path": "skills/strategy-gameplan/references/record.md",
+          "sha256": "a198d44d296ae4049228b917b77d8f9cafd39e33ee8f19ac2084c88d292496e3",
+          "encoding": "utf8-lf"
+        },
+        {
+          "path": "skills/strategy-gameplan/bin/gameplan.py",
+          "sha256": "900a5ce918d40e4b2c1780f034c5b25fd157b259badc3e114bf45bc2d53ebed0",
+          "encoding": "utf8-lf"
+        },
+        {
+          "path": "skills/strategy-gameplan/tests/test_gameplan.py",
+          "sha256": "2c47832eb6e1157aaf84656f5e289523960bab7a43d81e1c4d048172cb42f55b",
+          "encoding": "utf8-lf"
+        }
+      ]
+    }
+  ],
   "cycles": [
     {
       "number": 1,
@@ -78,6 +113,30 @@
         }
       ],
       "outcome": "Independent audio-product forward test and helper refusal checks passed; no actionable findings."
+    },
+    {
+      "number": 2,
+      "models": [
+        "gpt-6-luna"
+      ],
+      "scopes": [
+        "skill-behavior-and-helper"
+      ],
+      "question": "Does the mission addition connect human purpose and contributor motivation to strategy without rewriting the North Star, inventing recruitment evidence or adding a universal mission gate? Check only mission workflow, record and rendering changes; carry the original forward test.",
+      "evidence_fingerprint": "d39f69877158c42a9bae5b06a03740c4a79e56809a22bfb16994af2ab3a6a70a",
+      "request_fingerprint": "9c5293678c954be4764920b74f3bc5f66d24f998cc1176a01ffce8426e172970",
+      "scope_fingerprints": {
+        "skill-behavior-and-helper": "f59ada5f5c9e7a1dfc2394e264170492d8fafe0e03a1db21e24bf904be397667"
+      },
+      "verdict": "approve",
+      "reports": [
+        {
+          "path": "CI/reviews/strategy-gameplan/luna-cycle-2-mission.md",
+          "sha256": "dc1a430f3172ae2cd79dedb54ade42a06b6f99d7dacaef5b9fc99e024082a71a",
+          "encoding": "utf8-lf"
+        }
+      ],
+      "outcome": "Mission-specific example, rendering, compatibility and acceptance/refusal cases passed; no actionable findings."
     }
   ],
   "proposal": {
@@ -87,10 +146,37 @@
     "scopes": [
       "skill-behavior-and-helper"
     ],
-    "question": "Does the new skill support a realistic staged strategy discussion and do its executable helpers preserve scope, records and approval boundaries?",
-    "finding_ids": [],
-    "changed_evidence": []
+    "question": "Does the mission addition connect human purpose and contributor motivation to strategy without rewriting the North Star, inventing recruitment evidence or adding a universal mission gate? Check only mission workflow, record and rendering changes; carry the original forward test.",
+    "finding_ids": [
+      "M1"
+    ],
+    "changed_evidence": [
+      {
+        "path": "skills/strategy-gameplan/SKILL.md",
+        "sha256": "62f95dd69d5d353c33c244c818dcc38988efff10811e01bab67330b5768a04c4",
+        "encoding": "utf8-lf"
+      },
+      {
+        "path": "skills/strategy-gameplan/references/record.md",
+        "sha256": "a198d44d296ae4049228b917b77d8f9cafd39e33ee8f19ac2084c88d292496e3",
+        "encoding": "utf8-lf"
+      },
+      {
+        "path": "skills/strategy-gameplan/bin/gameplan.py",
+        "sha256": "900a5ce918d40e4b2c1780f034c5b25fd157b259badc3e114bf45bc2d53ebed0",
+        "encoding": "utf8-lf"
+      },
+      {
+        "path": "skills/strategy-gameplan/tests/test_gameplan.py",
+        "sha256": "2c47832eb6e1157aaf84656f5e289523960bab7a43d81e1c4d048172cb42f55b",
+        "encoding": "utf8-lf"
+      }
+    ]
   },
-  "judge": null,
+  "judge": {
+    "status": "unavailable",
+    "request_fingerprint": "9c5293678c954be4764920b74f3bc5f66d24f998cc1176a01ffce8426e172970",
+    "fallback_reason": "No configured advisory adapter or authorized Jev budget exists for this shared-skills repository. The author requests one focused Luna check of the owner-directed new scope; deterministic compatibility and record checks pass."
+  },
   "authorizations": []
 }
