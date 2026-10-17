@@ -43,6 +43,12 @@ The scripts need modern Python for their type syntax. No version is pinned here.
 This repo has no unit-test suite or frontmatter checker.
 Report that coverage gap. Do not run unrelated project suites to fill it.
 
+The new `strategy-gameplan` helper needs Python 3.10+ and only its standard library.
+Its focused checks run with `python -m unittest discover -s skills/strategy-gameplan/tests`.
+They cover record validation, decision completeness, refusal to overwrite and CLI output.
+Use the Codex skill-creator's `quick_validate.py` when available for this skill's frontmatter.
+These checks grant no strategy approval and do not require consumer app suites.
+
 ## Automation, access and live settings
 
 | Setting | Verified state |
