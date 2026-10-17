@@ -1,0 +1,23 @@
+{
+  "deliverable": "strategy-gameplan-v1",
+  "date": "2026-10-17",
+  "scope": "New strategy skill and its local helper; no product or provider execution",
+  "checks": [
+    {
+      "command": "python -m unittest discover -s skills/strategy-gameplan/tests -v",
+      "exit_code": 0,
+      "result": "6 focused tests passed, including real init/check/brief subprocesses and overwrite refusal"
+    },
+    {
+      "command": "python C:/Users/srbry/.codex/skills/.system/skill-creator/scripts/quick_validate.py skills/strategy-gameplan",
+      "exit_code": 0,
+      "result": "Skill is valid"
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0,
+      "result": "No whitespace errors"
+    }
+  ],
+  "limits": "These checks establish local behavior and structure. They do not establish strategic quality, owner acceptance or release approval."
+}

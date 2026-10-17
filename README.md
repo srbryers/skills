@@ -50,6 +50,7 @@ connector, so on other hosts the skills load but their Jev steps fail.
 - **supabase-edge-ops** - operate Prelude Supabase edge functions and database changes safely.
 - **sim-lab** - run and interpret Prelude onboarding simulated-user sims.
 - **decision-board** - run an independent Claude plus Codex review board with Jev as judge.
+- **strategy-gameplan** - develop a North Star into staged strategic decisions and delivery gates; includes a portable record helper.
 - **stackdiff-producer** - produce Sebastian's weekly stackdiff drafts from GitHub work.
 
 ## Roadmap

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Strategy gameplan"
+  short_description: "Turn a North Star into decisions and delivery gates"
+  default_prompt: "Use $strategy-gameplan to develop our North Star into an executable plan, one strategic decision at a time."

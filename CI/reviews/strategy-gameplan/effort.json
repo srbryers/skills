@@ -1,0 +1,96 @@
+{
+  "version": 1,
+  "deliverable": "strategy-gameplan-v1",
+  "workflow": "skill-forward-test",
+  "required_scopes": [
+    "skill-behavior-and-helper"
+  ],
+  "evidence": [
+    {
+      "path": "CI/CD.md",
+      "sha256": "cdfeeb33ca78a4d9730ca75b35c53de640c7bcf86d5658eaf90aaf191690b692",
+      "encoding": "utf8-lf"
+    },
+    {
+      "path": "README.md",
+      "sha256": "7d1625ce77ef8fc3da12bcb4873decf718e55adf42479eded992982751efb899",
+      "encoding": "utf8-lf"
+    },
+    {
+      "path": "skills/strategy-gameplan/SKILL.md",
+      "sha256": "34f36fff5fbb9b33542aeebd781e53b822f5277a6dee742c04f84946ee9f9af2",
+      "encoding": "utf8-lf"
+    },
+    {
+      "path": "skills/strategy-gameplan/agents/openai.yaml",
+      "sha256": "8b9ad741634daacf70c3533b7b0a2621daa946ea3a1cc05a4001f98af62c0b03",
+      "encoding": "utf8-lf"
+    },
+    {
+      "path": "skills/strategy-gameplan/bin/gameplan.py",
+      "sha256": "cae32ce7430a37f8a7e24f28e8855a0f9b588323520f69775408d0ac88247262",
+      "encoding": "utf8-lf"
+    },
+    {
+      "path": "skills/strategy-gameplan/references/record.md",
+      "sha256": "9fa64aaf766e0293f151d09319133380abea71865b8391a2f36c57dc16c38b25",
+      "encoding": "utf8-lf"
+    },
+    {
+      "path": "skills/strategy-gameplan/tests/test_gameplan.py",
+      "sha256": "3415d4d4d352b2c5e511c590af427923f49face6644892994fb9091138766ac1",
+      "encoding": "utf8-lf"
+    }
+  ],
+  "checks": {
+    "status": "pass",
+    "evidence": [
+      {
+        "path": "CI/reviews/strategy-gameplan/checks.json",
+        "sha256": "a813bade03befccee0031a8174da9c8ff4993f7f3df1ce1a042ef70dc7dc8b7b",
+        "encoding": "utf8-lf"
+      }
+    ],
+    "evidence_fingerprint": "1f30d32022eac5ba59e2d4a77f85ef08deb09febb9e6f298e3122d4a221397ed"
+  },
+  "findings": [],
+  "cycles": [
+    {
+      "number": 1,
+      "models": [
+        "gpt-6-luna"
+      ],
+      "scopes": [
+        "skill-behavior-and-helper"
+      ],
+      "question": "Does the new skill support a realistic staged strategy discussion and do its executable helpers preserve scope, records and approval boundaries?",
+      "evidence_fingerprint": "1f30d32022eac5ba59e2d4a77f85ef08deb09febb9e6f298e3122d4a221397ed",
+      "scope_fingerprints": {
+        "skill-behavior-and-helper": "d11a0e31f0579d9ea30260bfd50f2b495df4f9e4941b0835117f8a0161b9ba6b"
+      },
+      "request_fingerprint": "e3bd8f25a68af370a26f34eb6199751f0ad0b1a49f945986906772efa6a2c1fb",
+      "verdict": "approve",
+      "reports": [
+        {
+          "path": "CI/reviews/strategy-gameplan/luna-cycle-1.md",
+          "sha256": "c481058a3a2f90f4def68b0b43324f4377031771834c1d9dff4d4f1131af1490",
+          "encoding": "utf8-lf"
+        }
+      ],
+      "outcome": "Independent audio-product forward test and helper refusal checks passed; no actionable findings."
+    }
+  ],
+  "proposal": {
+    "models": [
+      "gpt-6-luna"
+    ],
+    "scopes": [
+      "skill-behavior-and-helper"
+    ],
+    "question": "Does the new skill support a realistic staged strategy discussion and do its executable helpers preserve scope, records and approval boundaries?",
+    "finding_ids": [],
+    "changed_evidence": []
+  },
+  "judge": null,
+  "authorizations": []
+}
